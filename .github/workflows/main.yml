@@ -45,6 +45,6 @@ jobs:
         uses: azure/k8s-deploy@v5
         with:
           manifests: |
-            02-kube-news/k8s/deployment.yaml
+            kubenews/k8s/deployment.yaml
           images: |
             oagara/kube-news-maratona:v${{ github.run_number }}
