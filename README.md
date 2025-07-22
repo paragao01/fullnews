@@ -4,7 +4,7 @@ Uma aplicação de notícias desenvolvida em NodeJS para demonstrar o uso de con
 
 ## 📋 Sobre o Projeto
 
-O projeto Kube-News é uma aplicação web simples desenvolvida em Node.js, projetada como exemplo para demonstrar um fluxo de trabalho completo de DevOps, desde o desenvolvimento local com Docker até o deploy contínuo em um cluster Kubernetes.
+O projeto Kubenews é uma aplicação web simples desenvolvida em Node.js, projetada como exemplo para demonstrar um fluxo de trabalho completo de DevOps, desde o desenvolvimento local com Docker até o deploy contínuo em um cluster Kubernetes.
 
 ## 🏗️ Arquitetura do Projeto
 
@@ -22,7 +22,7 @@ O diagrama abaixo ilustra o fluxo de trabalho, desde o desenvolvimento local at�
                   │             Digital Ocean Kubernetes Cluster      │
                   │                                                   │
                   │   ┌──────────┐      ┌─────────────┐     ┌─────────┐
-                  │   │ Ingress  ├─────►│  Kube-News  │────►│  PostgreSQL │
+                  │   │ Ingress  ├─────►│  Kubenews   │────►│  PostgreSQL │
                   │   │ (NGINX)  │      │   Pod(s)    │     │ (Banco de Dados)│
                   │   └──────────┘      └──────┬──────┘     └─────────┘
                   │                          │                        │
