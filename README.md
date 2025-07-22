@@ -1,10 +1,40 @@
 # Kube-News
 
-Uma aplicação de notícias desenvolvida em NodeJS para demonstrar o uso de containers e Kubernetes.
+Uma aplicação de notícias desenvolvida em NodeJS para demonstrar o uso de containers, Kubernetes e práticas de DevOps.
 
 ## 📋 Sobre o Projeto
 
-O projeto Kube-News é uma aplicação web simples desenvolvida em Node.js, projetada como exemplo para demonstrar o uso de contêineres. É um portal de notícias que permite criar, visualizar e gerenciar artigos através de uma interface web.
+O projeto Kube-News é uma aplicação web simples desenvolvida em Node.js, projetada como exemplo para demonstrar um fluxo de trabalho completo de DevOps, desde o desenvolvimento local com Docker até o deploy contínuo em um cluster Kubernetes.
+
+## 🏗️ Arquitetura do Projeto
+
+O diagrama abaixo ilustra o fluxo de trabalho, desde o desenvolvimento local até o deploy contínuo no cluster Kubernetes na Digital Ocean.
+
+```
+┌───────────────────┐      ┌─────────────────┐      ┌──────────────────┐
+│   Desenvolvedor   │──────►   GitHub        ├──────►   Docker Hub     │
+│ (VS Code, Docker) │      │ (Push no código)│      │ (Registro da Imagem) │
+└───────────────────┘      └───────┬─────────┘      └──────────┬───────┘
+                                   │                          │
+                                   │ (GitHub Actions CI/CD)   │ (Pull da Imagem)
+                                   ▼                          ▼
+                  ┌───────────────────────────────────────────────────┐
+                  │             Digital Ocean Kubernetes Cluster      │
+                  │                                                   │
+                  │   ┌──────────┐      ┌─────────────┐     ┌─────────┐
+                  │   │ Ingress  ├─────►│  Kube-News  │────►│  PostgreSQL │
+                  │   │ (NGINX)  │      │   Pod(s)    │     │ (Banco de Dados)│
+                  │   └──────────┘      └──────┬──────┘     └─────────┘
+                  │                          │                        │
+                  │                          │ (Exporta Métricas)     │
+                  │                          ▼                        │
+                  │   ┌──────────┐      ┌─────────────┐               │
+                  │   │ Prometheus ├─────►│   Grafana   │               │
+                  │   │ (Coleta)   │      │ (Visualização)│               │
+                  │   └──────────┘      └─────────────┘               │
+                  │                                                   │
+                  └───────────────────────────────────────────────────┘
+```
 
 ### 🚀 Funcionalidades Principais
 
@@ -15,46 +45,96 @@ O projeto Kube-News é uma aplicação web simples desenvolvida em Node.js, proj
 - Endpoints de health check para monitoramento
 - Coleta de métricas para Prometheus
 
-## 🛠️ Tecnologias Utilizadas
+### 🛠️ Tecnologias Utilizadas
 
 - **Backend**: Node.js com Express.js
 - **Frontend**: EJS (Embedded JavaScript) como motor de templates
 - **Banco de Dados**: PostgreSQL com Sequelize ORM
-- **Monitoramento**: Prometheus (via express-prom-bundle)
+- **Containerização**: Docker
+- **Orquestração**: Kubernetes e Docker Compose
+- **CI/CD**: GitHub Actions
+- **Monitoramento**: Prometheus e Grafana
 
 ## 📦 Estrutura do Projeto
 
 ```
 /
-├── src/                      # Código-fonte principal
-│   ├── models/               # Modelos de dados
-│   │   └── post.js           # Definição do modelo Post
-│   ├── views/                # Templates EJS
-│   │   ├── partial/          # Componentes parciais (header, footer)
-│   │   ├── edit-news.ejs     # Formulário de edição
-│   │   ├── index.ejs         # Página principal
-│   │   └── view-news.ejs     # Visualização de notícia
-│   ├── static/               # Arquivos estáticos (CSS, imagens)
-│   ├── middleware.js         # Middlewares personalizados
-│   ├── server.js             # Ponto de entrada da aplicação
-│   ├── system-life.js        # Endpoints de health check
-│   └── package.json          # Dependências
-├── popula-dados.http         # Arquivo para popular o banco com dados de exemplo
-└── README.md                 # Documentação
+├── .github/                  # Workflows de CI/CD com GitHub Actions
+│   └── workflows/
+│       └── main.yml
+├── dashboards/               # Dashboards de monitoramento
+│   └── 11159_rev1.json       # Dashboard para Grafana
+├── k8s/                      # Manifestos de deploy do Kubernetes
+│   ├── deployment.yaml
+│   ├── nginx.yaml
+│   └── prometheus_grafana.yaml
+├── src/                      # Código-fonte principal da aplicação Node.js
+│   ├── models/
+│   ├── static/
+│   ├── views/
+│   ├── .dockerignore
+│   ├── Dockerfile
+│   ├── middleware.js
+│   ├── package.json
+│   ├── server.js
+│   └── system-life.js
+├── .gitignore
+├── compose.yaml              # Orquestração local com Docker Compose
+├── popula-dados.http         # Requisições de exemplo para popular o banco
+└── README.md                 # Documentação do projeto
 ```
+
+## 🚀 Ambientes de Execução
+
+Existem duas formas principais de executar esta aplicação, cada uma adequada a um cenário diferente.
+
+### 1. Ambiente de Desenvolvimento Local (com Docker Compose)
+
+Para desenvolver e testar na sua máquina local. Este método sobe a aplicação e o banco de dados de forma rápida e integrada.
+
+1.  **Pré-requisitos:**
+    *   Docker
+    *   Docker Compose
+
+2.  **Inicie os serviços:**
+    Na raiz do projeto, execute:
+    ```bash
+    docker-compose up -d
+    ```
+
+3.  **Acesse a aplicação:**
+    A aplicação estará disponível em [http://localhost:8080](http://localhost:8080).
+
+4.  **Para parar os serviços:**
+    ```bash
+    docker-compose down
+    ```
+
+### 2. Ambiente de Produção/Staging (com Kubernetes)
+
+Para realizar o deploy da aplicação em um cluster Kubernetes, como o da Digital Ocean.
+
+1.  **Pré-requisitos:**
+    *   Um cluster Kubernetes acessível.
+    *   `kubectl` configurado para acessar seu cluster.
+
+2.  **Aplicar os manifestos:**
+    Os manifestos na pasta `k8s/` contêm todos os recursos necessários (Deployments, Services, Ingress, etc.). Para aplicá-los, execute:
+    ```bash
+    kubectl apply -f k8s/
+    ```
+
+3.  **Acessar a aplicação no cluster:**
+    Após o deploy, a aplicação estará acessível através do Ingress. Verifique o endereço de acesso com:
+    ```bash
+    kubectl get ingress
+    ```
 
 ## 🔧 Configuração
 
-### Pré-requisitos
-
-- Node.js
-- PostgreSQL
-- Docker (opcional, para containerização)
-- Kubernetes (opcional, para orquestração)
-
 ### Variáveis de Ambiente
 
-Para configurar a aplicação, defina as seguintes variáveis de ambiente:
+Para configurar a aplicação, defina as seguintes variáveis de ambiente. Ao usar o `compose.yaml`, elas já são injetadas a partir do arquivo.
 
 | Variável | Descrição | Valor Padrão |
 |----------|-----------|--------------|
@@ -65,9 +145,57 @@ Para configurar a aplicação, defina as seguintes variáveis de ambiente:
 | DB_PORT | Porta do banco de dados | 5432 |
 | DB_SSL_REQUIRE | Habilitar SSL para conexão | false |
 
-## 🚀 Instalação e Execução
+## 🔄 Pipeline de CI/CD
 
-### Execução Local
+Este projeto utiliza GitHub Actions para automação de CI/CD. O workflow está definido em `.github/workflows/main.yml` e é acionado a cada `push` na branch `main`.
+
+**Continuous Integration (CI):**
+1.  **Login no Docker Hub:** Autentica no registro de contêineres.
+2.  **Build e Push da Imagem:** Compila a imagem Docker da aplicação e a envia para o Docker Hub com as tags `latest` e a identificação do commit.
+
+**Continuous Deployment (CD):**
+1.  **Deploy na Digital Ocean:** Após a imagem ser publicada, o pipeline se conecta ao cluster Kubernetes na Digital Ocean e atualiza o Deployment da aplicação para utilizar a nova imagem, realizando o deploy de forma automática.
+
+## 📊 Monitoramento e Health Checks
+
+A aplicação disponibiliza endpoints para monitoramento e também recursos para simular cenários de falha, muito úteis para testar a resiliência em ambientes Kubernetes.
+
+### Endpoints de Monitoramento
+- `/health` - Verifica o estado atual da aplicação.
+- `/ready` - Verifica se a aplicação está pronta para receber tráfego.
+- `/metrics` - Métricas do Prometheus.
+
+### Simulação de Falhas (Chaos Engineering)
+- `/unhealth` - (PUT) Altera o estado da aplicação para não saudável.
+- `/unreadyfor/:seconds` - (PUT) Simula indisponibilidade temporária.
+
+### Visualizando Métricas no Grafana
+
+O projeto inclui um manifesto para deploy do Grafana e um dashboard pré-configurado.
+
+1.  **Acessar o Grafana:** O serviço do Grafana é exposto pelo Kubernetes. Encontre o endereço de acesso e a porta.
+2.  **Importar o Dashboard:**
+    *   Acesse a interface do Grafana.
+    *   Navegue até `Dashboards` -> `Import`.
+    *   Faça o upload ou copie o conteúdo do arquivo `dashboards/11159_rev1.json`.
+    *   Adicione o Prometheus como fonte de dados (DataSource) se necessário.
+
+## 🔒 Modelo de Dados
+
+O projeto utiliza um único modelo `Post` com os seguintes campos:
+
+| Campo | Tipo | Descrição |
+|-------|------|-----------|
+| title | String | Título da notícia |
+| summary | String | Resumo da notícia |
+| content | String | Conteúdo completo |
+| publishDate | Date | Data de publicação |
+
+## Outras Formas de Execução
+
+### Execução Local (via NPM)
+
+Se preferir não usar Docker, você pode executar a aplicação diretamente com Node.js.
 
 1. Clone o repositório
 2. Instale as dependências:
@@ -75,7 +203,7 @@ Para configurar a aplicação, defina as seguintes variáveis de ambiente:
    cd src
    npm install
    ```
-3. Configure as variáveis de ambiente necessárias
+3. Configure as variáveis de ambiente e um banco de dados PostgreSQL.
 4. Inicie a aplicação:
    ```bash
    npm start
@@ -84,43 +212,4 @@ Para configurar a aplicação, defina as seguintes variáveis de ambiente:
 
 ### População de Dados de Exemplo
 
-Utilize o arquivo `popula-dados.http` para inserir notícias de exemplo:
-
-```bash
-# Com uma ferramenta como o REST Client no VS Code ou curl
-POST http://localhost:8080/api/post
-Content-Type: application/json
-# Conteúdo do arquivo popula-dados.http
-```
-
-## 📊 Monitoramento e Health Checks
-
-A aplicação disponibiliza endpoints para monitoramento e também recursos para simular cenários de falha, muito úteis para testar a resiliência em ambientes Kubernetes:
-
-### Endpoints de Monitoramento
-- `/health` - Verifica o estado atual da aplicação (retorna status da aplicação e hostname da máquina)
-- `/ready` - Verifica se a aplicação está pronta para receber tráfego
-- `/metrics` - Métricas do Prometheus (geradas pelo express-prom-bundle)
-
-### Simulação de Falhas (Chaos Engineering)
-- `/unhealth` - (PUT) Altera o estado da aplicação para não saudável. Todas as requisições subsequentes receberão status code 500.
-- `/unreadyfor/:seconds` - (PUT) Simula indisponibilidade temporária por um número específico de segundos. Durante este período, o endpoint `/ready` retornará status code 500.
-
-Estes recursos de simulação de falhas são extremamente úteis para testar:
-- Comportamento de probes de liveness e readiness no Kubernetes
-- Políticas de retry e circuit breaker
-- Mecanismos de failover
-- Resiliência geral da sua infraestrutura
-
-## 🔒 Modelo de Dados
-
-O projeto utiliza um único modelo `Post` com os seguintes campos:
-
-| Campo | Tipo | Descrição |
-|-------|------|-----------|
-| title | String | Título da notícia (limite: 30 caracteres) |
-| summary | String | Resumo da notícia (limite: 50 caracteres) |
-| content | String | Conteúdo completo (limite: 2000 caracteres) |
-| publishDate | Date | Data de publicação |
-
-
+Utilize o arquivo `popula-dados.http` com uma ferramenta como o REST Client (extensão do VS Code) ou `curl` para inserir notícias de exemplo.
