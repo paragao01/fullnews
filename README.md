@@ -1,4 +1,4 @@
-# Kube-News
+# Kubenews
 
 Uma aplicação de notícias desenvolvida em NodeJS para demonstrar o uso de containers, Kubernetes e práticas de DevOps.
 
