@@ -1,4 +1,4 @@
-# Aplicação de Exemplo para DevOps com Kubernetes
+# Kubenews: Aplicação exemplo DevOps com Kubernetes
 
 ## Tecnologias Utilizadas
 
