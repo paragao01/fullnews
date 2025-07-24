@@ -1,14 +1,33 @@
-# Kubenews
+# Kubenews: Aplicação de Exemplo para DevOps com Kubernetes
 
-Uma aplicação de notícias desenvolvida em NodeJS para demonstrar o uso de containers, Kubernetes e práticas de DevOps.
+[![Status da Build](https://github.com/USUARIO/REPOSITORIO/actions/workflows/main.yml/badge.svg)](https://github.com/USUARIO/REPOSITORIO/actions/workflows/main.yml)
+[![Docker Pulls](https://img.shields.io/docker/pulls/USUARIO/kubenews.svg)](https://hub.docker.com/r/USUARIO/kubenews)
+[![Licença](https://img.shields.io/badge/licença-MIT-blue.svg)](/LICENSE)
 
-## 📋 Sobre o Projeto
+Uma aplicação de notícias completa, desenvolvida em Node.js, para demonstrar um fluxo de trabalho de DevOps, desde o provisionamento da infraestrutura com Terraform até o deploy contínuo em um cluster Kubernetes.
 
-O projeto Kubenews é uma aplicação web simples desenvolvida em Node.js, projetada como exemplo para demonstrar um fluxo de trabalho completo de DevOps, desde o desenvolvimento local com Docker até o deploy contínuo em um cluster Kubernetes.
+## 📋 Tabela de Conteúdos
 
-## 🏗️ Arquitetura do Projeto
+- [Sobre o Projeto](#-sobre-o-projeto)
+- [Arquitetura](#️-arquitetura)
+- [Funcionalidades e Tecnologias](#-funcionalidades-e-tecnologias)
+- [🚀 Começando (Execução Local)](#-começando-execução-local)
+- [🚢 Fluxo de Deploy (DevOps)](#-fluxo-de-deploy-devops)
+  - [Passo 1: Provisionando a Infraestrutura (Terraform)](#passo-1-provisionando-a-infraestrutura-terraform)
+  - [Passo 2: Deploy da Aplicação (Kubernetes)](#passo-2-deploy-da-aplicação-kubernetes)
+  - [Passo 3: Automação com CI/CD (GitHub Actions)](#passo-3-automação-com-cicd-github-actions)
+- [🔧 Configuração](#-configuração)
+- [📊 Monitoramento e Observabilidade](#-monitoramento-e-observabilidade)
+- [👨‍💻 Desenvolvimento Avançado](#-desenvolvimento-avançado)
+- [📂 Estrutura do Projeto](#-estrutura-do-projeto)
 
-O diagrama abaixo ilustra o fluxo de trabalho, desde o desenvolvimento local até o deploy contínuo no cluster Kubernetes na Digital Ocean.
+## 📖 Sobre o Projeto
+
+O **Kubenews** é uma aplicação web projetada para servir como um exemplo prático de um ciclo de vida de desenvolvimento de software moderno. Ele abrange desde a containerização com Docker, provisionamento de infraestrutura como código (IaC) com Terraform, até a orquestração e o deploy contínuo em um cluster Kubernetes gerenciado.
+
+## 🏗️ Arquitetura
+
+O diagrama abaixo ilustra o fluxo de trabalho completo, desde o desenvolvimento local até o deploy automatizado no cluster Kubernetes.
 
 ```
 ┌───────────────────┐      ┌─────────────────┐      ┌──────────────────────┐
@@ -19,11 +38,11 @@ O diagrama abaixo ilustra o fluxo de trabalho, desde o desenvolvimento local at�
                                    │ (GitHub Actions CI/CD)    │ (Pull da Imagem)
                                    ▼                           ▼
                   ┌────────────────────────────────────────────────────────────┐
-                  │             Digital Ocean Kubernetes Cluster               │
+                  │          Cloud (Ex: Digital Ocean Kubernetes)              │
                   │                                                            │
                   │   ┌──────────┐      ┌─────────────┐     ┌─────────────────┐│
                   │   │ Ingress  ├─────►│  Kubenews   │────►│  PostgreSQL     ││
-                  │   │ (NGINX)  │      │   Pod(s)    │     │ (Banco de Dados)││
+                  │   │          │      │   Pod(s)    │     │ (Banco de Dados)││
                   │   └──────────┘      └──────┬──────┘     └─────────────────┘│
                   │                            │                               │
                   │                            │ (Exporta Métricas)            │
@@ -36,180 +55,157 @@ O diagrama abaixo ilustra o fluxo de trabalho, desde o desenvolvimento local at�
                   └────────────────────────────────────────────────────────────┘
 ```
 
-### 🚀 Funcionalidades Principais
+## ✨ Funcionalidades e Tecnologias
 
-- Listagem de notícias na página inicial
-- Criação de novas notícias através de formulário
-- Visualização detalhada de cada notícia
-- API REST para inserção em massa de notícias
-- Endpoints de health check para monitoramento
-- Coleta de métricas para Prometheus
+| Funcionalidades Principais | Tecnologias Utilizadas |
+| -------------------------- | ---------------------- |
+| 🔹 Listagem de notícias     | 🔸 **Backend**: Node.js, Express.js |
+| 🔹 Criação e edição de posts | 🔸 **Frontend**: EJS (Templates) |
+| 🔹 API REST para dados      | 🔸 **Banco de Dados**: PostgreSQL, Sequelize |
+| 🔹 Health checks para K8s   | 🔸 **Container**: Docker, Docker Compose |
+| 🔹 Métricas para Prometheus | 🔸 **Infraestrutura**: Terraform |
+| 🔹 Simulação de falhas     | 🔸 **Orquestração**: Kubernetes |
+|                            | 🔸 **CI/CD**: GitHub Actions |
+|                            | 🔸 **Monitoramento**: Prometheus, Grafana |
 
-### 🛠️ Tecnologias Utilizadas
+## 🚀 Começando (Execução Local)
 
-- **Backend**: Node.js com Express.js
-- **Frontend**: EJS (Embedded JavaScript) como motor de templates
-- **Banco de Dados**: PostgreSQL com Sequelize ORM
-- **Containerização**: Docker
-- **Orquestração**: Kubernetes e Docker Compose
-- **CI/CD**: GitHub Actions
-- **Monitoramento**: Prometheus e Grafana
+Para executar o projeto em seu ambiente de desenvolvimento, a forma mais simples é usando Docker Compose.
 
-## 📦 Estrutura do Projeto
+**Pré-requisitos:**
+*   Docker
+*   Docker Compose
 
-```
-/
-├── .github/                  # Workflows de CI/CD com GitHub Actions
-│   └── workflows/
-│       └── main.yml
-├── dashboards/               # Dashboards de monitoramento
-│   └── 11159_rev1.json       # Dashboard para Grafana
-├── k8s/                      # Manifestos de deploy do Kubernetes
-│   ├── deployment.yaml
-│   ├── nginx.yaml
-│   └── prometheus_grafana.yaml
-├── src/                      # Código-fonte principal da aplicação Node.js
-│   ├── models/
-│   ├── static/
-│   ├── views/
-│   ├── .dockerignore
-│   ├── Dockerfile
-│   ├── middleware.js
-│   ├── package.json
-│   ├── server.js
-│   └── system-life.js
-├── .gitignore
-├── compose.yaml              # Orquestração local com Docker Compose
-├── popula-dados.http         # Requisições de exemplo para popular o banco
-└── README.md                 # Documentação do projeto
-```
-
-## 🚀 Ambientes de Execução
-
-Existem duas formas principais de executar esta aplicação, cada uma adequada a um cenário diferente.
-
-### 1. Ambiente de Desenvolvimento Local (com Docker Compose)
-
-Para desenvolver e testar na sua máquina local. Este método sobe a aplicação e o banco de dados de forma rápida e integrada.
-
-1.  **Pré-requisitos:**
-    *   Docker
-    *   Docker Compose
-
-2.  **Inicie os serviços:**
-    Na raiz do projeto, execute:
+**Passos:**
+1.  Clone o repositório:
+    ```bash
+    git clone https://github.com/USUARIO/REPOSITORIO.git
+    cd REPOSITORIO
+    ```
+2.  Inicie os serviços (aplicação e banco de dados):
     ```bash
     docker-compose up -d
     ```
+3.  Acesse a aplicação em **[http://localhost:8080](http://localhost:8080)**.
 
-3.  **Acesse a aplicação:**
-    A aplicação estará disponível em [http://localhost:8080](http://localhost:8080).
+Para parar todos os contêineres, execute `docker-compose down`.
 
-4.  **Para parar os serviços:**
+## 🚢 Fluxo de Deploy (DevOps)
+
+Esta seção descreve o processo completo para colocar a aplicação em um ambiente de produção ou staging na nuvem.
+
+### Passo 1: Provisionando a Infraestrutura (Terraform)
+
+Utilizamos o Terraform para criar e gerenciar a infraestrutura como código, garantindo um ambiente replicável e consistente. O código está na pasta `k8s/terraform/`.
+
+**Pré-requisitos:**
+*   [Terraform CLI](https://learn.hashicorp.com/tutorials/terraform/install-cli) instalado.
+*   Token de acesso de um provedor de nuvem (ex: Digital Ocean) configurado como variável de ambiente.
+
+**Passos:**
+1.  Navegue até o diretório do Terraform:
     ```bash
-    docker-compose down
+    cd k8s/terraform
     ```
+2.  Inicialize o Terraform para baixar os providers:
+    ```bash
+    terraform init
+    ```
+3.  (Opcional) Planeje a infraestrutura para revisar as mudanças:
+    ```bash
+    terraform plan
+    ```
+4.  Aplique as configurações para criar os recursos na nuvem (ex: cluster Kubernetes):
+    ```bash
+    terraform apply
+    ```
+Para destruir a infraestrutura, use `terraform destroy`.
 
-### 2. Ambiente de Produção/Staging (com Kubernetes)
+### Passo 2: Deploy da Aplicação (Kubernetes)
 
-Para realizar o deploy da aplicação em um cluster Kubernetes, como o da Digital Ocean.
+Com o cluster provisionado, você pode fazer o deploy da aplicação e de seus componentes de monitoramento.
 
-1.  **Pré-requisitos:**
-    *   Um cluster Kubernetes acessível.
-    *   `kubectl` configurado para acessar seu cluster.
+**Pré-requisitos:**
+*   `kubectl` configurado para acessar seu cluster.
 
-2.  **Aplicar os manifestos:**
-    Os manifestos na pasta `k8s/` contêm todos os recursos necessários (Deployments, Services, Ingress, etc.). Para aplicá-los, execute:
+**Passos:**
+1.  Aplique todos os manifestos do Kubernetes de uma vez:
     ```bash
     kubectl apply -f k8s/
     ```
+    Isso criará os Deployments, Services, Ingress e outros recursos necessários.
 
-3.  **Acessar a aplicação no cluster:**
-    Após o deploy, a aplicação estará acessível através do Ingress. Verifique o endereço de acesso com:
+2.  Verifique o status e obtenha o IP de acesso:
     ```bash
     kubectl get ingress
     ```
 
+### Passo 3: Automação com CI/CD (GitHub Actions)
+
+O pipeline em `.github/workflows/main.yml` automatiza o processo de build e deploy a cada `push` na branch `main`.
+
+*   **Continuous Integration (CI):** O workflow realiza o login no Docker Hub, constrói a imagem da aplicação e a publica no registro com a tag do commit.
+*   **Continuous Deployment (CD):** Após a publicação da imagem, o pipeline se conecta ao cluster Kubernetes e atualiza o Deployment para usar a nova imagem, efetivando o deploy de forma automática.
+
 ## 🔧 Configuração
 
-### Variáveis de Ambiente
-
-Para configurar a aplicação, defina as seguintes variáveis de ambiente. Ao usar o `compose.yaml`, elas já são injetadas a partir do arquivo.
+A aplicação é configurada através de variáveis de ambiente. O `compose.yaml` e os manifestos do Kubernetes já as injetam.
 
 | Variável | Descrição | Valor Padrão |
 |----------|-----------|--------------|
-| DB_DATABASE | Nome do banco de dados | kubedevnews |
-| DB_USERNAME | Usuário do banco de dados | kubedevnews |
-| DB_PASSWORD | Senha do usuário | Pg#123 |
-| DB_HOST | Endereço do banco de dados | localhost |
-| DB_PORT | Porta do banco de dados | 5432 |
-| DB_SSL_REQUIRE | Habilitar SSL para conexão | false |
+| `DB_DATABASE` | Nome do banco de dados | `kubedevnews` |
+| `DB_USERNAME` | Usuário do banco de dados | `kubedevnews` |
+| `DB_PASSWORD` | Senha do usuário | `Pg#123` |
+| `DB_HOST` | Endereço do banco de dados | `localhost` |
+| `DB_PORT` | Porta do banco de dados | `5432` |
+| `DB_SSL_REQUIRE` | Habilitar SSL para conexão | `false` |
 
-## 🔄 Pipeline de CI/CD
+## 📊 Monitoramento e Observabilidade
 
-Este projeto utiliza GitHub Actions para automação de CI/CD. O workflow está definido em `.github/workflows/main.yml` e é acionado a cada `push` na branch `main`.
+A aplicação foi instrumentada para expor métricas e health checks, essenciais em um ambiente orquestrado.
 
-**Continuous Integration (CI):**
-1.  **Login no Docker Hub:** Autentica no registro de contêineres.
-2.  **Build e Push da Imagem:** Compila a imagem Docker da aplicação e a envia para o Docker Hub com as tags `latest` e a identificação do commit.
+**Endpoints de Monitoramento:**
+*   `/health`: Verifica a saúde da aplicação (liveness probe).
+*   `/ready`: Verifica se a aplicação está pronta para receber tráfego (readiness probe).
+*   `/metrics`: Expõe métricas no formato Prometheus.
 
-**Continuous Deployment (CD):**
-1.  **Deploy na Digital Ocean:** Após a imagem ser publicada, o pipeline se conecta ao cluster Kubernetes na Digital Ocean e atualiza o Deployment da aplicação para utilizar a nova imagem, realizando o deploy de forma automática.
+**Simulação de Falhas (Chaos Engineering):**
+*   `PUT /unhealth`: Altera o estado da aplicação para não saudável.
+*   `PUT /unreadyfor/:seconds`: Simula indisponibilidade temporária.
 
-## 📊 Monitoramento e Health Checks
+**Visualizando Métricas no Grafana:**
+1.  Acesse o Grafana através do Ingress ou port-forward.
+2.  Navegue até `Dashboards` -> `Import`.
+3.  Faça o upload do arquivo `dashboards/11159_rev1.json` para importar um dashboard pré-configurado.
 
-A aplicação disponibiliza endpoints para monitoramento e também recursos para simular cenários de falha, muito úteis para testar a resiliência em ambientes Kubernetes.
+## 👨‍💻 Desenvolvimento Avançado
 
-### Endpoints de Monitoramento
-- `/health` - Verifica o estado atual da aplicação.
-- `/ready` - Verifica se a aplicação está pronta para receber tráfego.
-- `/metrics` - Métricas do Prometheus.
+### Execução Local via NPM
+Se preferir rodar a aplicação sem Docker:
+1.  Tenha um banco de dados PostgreSQL acessível.
+2.  Configure as variáveis de ambiente listadas acima.
+3.  Instale as dependências e inicie:
+    ```bash
+    cd src
+    npm install
+    npm start
+    ```
 
-### Simulação de Falhas (Chaos Engineering)
-- `/unhealth` - (PUT) Altera o estado da aplicação para não saudável.
-- `/unreadyfor/:seconds` - (PUT) Simula indisponibilidade temporária.
+### Populando Dados de Exemplo
+Use o arquivo `popula-dados.http` com a extensão REST Client do VS Code ou `curl` para popular o banco com notícias de exemplo.
 
-### Visualizando Métricas no Grafana
-
-O projeto inclui um manifesto para deploy do Grafana e um dashboard pré-configurado.
-
-1.  **Acessar o Grafana:** O serviço do Grafana é exposto pelo Kubernetes. Encontre o endereço de acesso e a porta.
-2.  **Importar o Dashboard:**
-    *   Acesse a interface do Grafana.
-    *   Navegue até `Dashboards` -> `Import`.
-    *   Faça o upload ou copie o conteúdo do arquivo `dashboards/11159_rev1.json`.
-    *   Adicione o Prometheus como fonte de dados (DataSource) se necessário.
-
-## 🔒 Modelo de Dados
-
-O projeto utiliza um único modelo `Post` com os seguintes campos:
-
-| Campo | Tipo | Descrição |
-|-------|------|-----------|
-| title | String | Título da notícia |
-| summary | String | Resumo da notícia |
-| content | String | Conteúdo completo |
-| publishDate | Date | Data de publicação |
-
-## Outras Formas de Execução
-
-### Execução Local (via NPM)
-
-Se preferir não usar Docker, você pode executar a aplicação diretamente com Node.js.
-
-1. Clone o repositório
-2. Instale as dependências:
-   ```bash
-   cd src
-   npm install
-   ```
-3. Configure as variáveis de ambiente e um banco de dados PostgreSQL.
-4. Inicie a aplicação:
-   ```bash
-   npm start
-   ```
-5. Acesse a aplicação em [http://localhost:8080](http://localhost:8080)
-
-### População de Dados de Exemplo
-
-Utilize o arquivo `popula-dados.http` com uma ferramenta como o REST Client (extensão do VS Code) ou `curl` para inserir notícias de exemplo.
+## 📂 Estrutura do Projeto
+```
+/
+├── .github/                  # Workflows de CI/CD com GitHub Actions
+├── dashboards/               # Dashboards para Grafana
+├── k8s/                      # Recursos do Kubernetes
+│   ├── terraform/            # Código de Infraestrutura como Código (IaC)
+│   ├── deployment.yaml       # Manifestos da aplicação
+│   └── ...
+├── src/                      # Código-fonte da aplicação Node.js
+├── .gitignore
+├── compose.yaml              # Orquestração local com Docker Compose
+├── popula-dados.http         # Requisições de exemplo
+└── README.md                 # Esta documentação
+```
