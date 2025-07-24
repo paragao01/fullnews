@@ -36,7 +36,7 @@ resource "digitalocean_kubernetes_cluster" "k8s_aula" {
   # Nome do cluster
   name   = "k8s-aula"
   # Região onde o cluster será criado
-  region = "nyc3"
+  region = "nyc1"
   # Versão do Kubernetes, obtida dinamicamente do data source
   version = data.digitalocean_kubernetes_versions.latest.latest_version
 
