@@ -1,6 +1,14 @@
 # Kubenews: Aplicação de Exemplo para DevOps com Kubernetes
 
-[![Status da Build](https://github.com/USUARIO/REPOSITORIO/actions/workflows/main.yml/badge.svg)](https://github.com/USUARIO/REPOSITORIO/actions/workflows/main.yml)
+## Tecnologias Utilizadas
+
+- **Backend:** Node.js, Express.js
+- **Frontend:** EJS (Embedded JavaScript templates)
+- **Banco de Dados:** PostgreSQL, Sequelize (ORM)
+- **Containerização:** Docker, Docker Compose
+- **Orquestração:** Kubernetes
+- **Monitoramento:** Prometheus
+- **CI/CD:** GitHub Actions
 [![Docker Pulls](https://img.shields.io/docker/pulls/USUARIO/kubenews.svg)](https://hub.docker.com/r/USUARIO/kubenews)
 [![Licença](https://img.shields.io/badge/licença-MIT-blue.svg)](/LICENSE)
 
