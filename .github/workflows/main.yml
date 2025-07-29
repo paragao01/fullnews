@@ -1,4 +1,4 @@
-name: Kube-News Release Pipeline
+name: Fullnews Release Pipeline
 
 on:
   push:

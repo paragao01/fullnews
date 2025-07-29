@@ -1,4 +1,4 @@
-# Kubenews: Aplicação de Exemplo para DevOps com Kubernetes
+# Fullnews: Aplicação de Exemplo para DevOps com Kubernetes
 
 ## Tecnologias Utilizadas
 
@@ -31,7 +31,7 @@ Uma aplicação de notícias completa, desenvolvida em Node.js, para demonstrar 
 
 ## 📖 Sobre o Projeto
 
-O **Kubenews** é uma aplicação web projetada para servir como um exemplo prático de um ciclo de vida de desenvolvimento de software moderno. Ele abrange desde a containerização com Docker, provisionamento de infraestrutura como código (IaC) com Terraform, até a orquestração e o deploy contínuo em um cluster Kubernetes gerenciado.
+O **Fullnews** é uma aplicação web projetada para servir como um exemplo prático de um ciclo de vida de desenvolvimento de software moderno. Ele abrange desde a containerização com Docker, provisionamento de infraestrutura como código (IaC) com Terraform, até a orquestração e o deploy contínuo em um cluster Kubernetes gerenciado.
 
 ## 🏗️ Arquitetura
 
@@ -49,7 +49,7 @@ O diagrama abaixo ilustra o fluxo de trabalho completo, desde o desenvolvimento 
                   │          Cloud (Ex: Digital Ocean Kubernetes)              │
                   │                                                            │
                   │   ┌──────────┐      ┌─────────────┐     ┌─────────────────┐│
-                  │   │ Ingress  ├─────►│  Kubenews   │────►│  PostgreSQL     ││
+                  │   │ Ingress  ├─────►│  Fullnews   │────►│  PostgreSQL     ││
                   │   │          │      │   Pod(s)    │     │ (Banco de Dados)││
                   │   └──────────┘      └──────┬──────┘     └─────────────────┘│
                   │                            │                               │
@@ -87,7 +87,7 @@ Para executar o projeto em seu ambiente de desenvolvimento, a forma mais simples
 **Passos:**
 1.  Clone o repositório:
     ```bash
-    git clone https://github.com/USUARIO/REPOSITORIO.git
+    git clone git@github.com:paragao01/fullnews.git
     cd REPOSITORIO
     ```
 2.  Inicie os serviços (aplicação e banco de dados):
