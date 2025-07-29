@@ -25,8 +25,8 @@ jobs:
           file: src/Dockerfile
           push: true
           tags: |
-            oagara/kube-news-maratona:v${{ github.run_number }}
-            oagara/kube-news-maratona:latest
+            oagara/full-news-maratona:v${{ github.run_number }}
+            oagara/full-news-maratona:latest
 
   deploy-to-kubernetes:
     runs-on: ubuntu-latest
@@ -47,4 +47,4 @@ jobs:
           manifests: |
             k8s/deployment.yaml
           images: |
-            oagara/kube-news-maratona:v${{ github.run_number }}
+            oagara/full-news-maratona:v${{ github.run_number }}

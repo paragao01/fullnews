@@ -19,9 +19,9 @@ spec:
         - containerPort: 5432
         env:
         - name: POSTGRES_DB
-          value: "kubedevnews"
+          value: "fulldevnews"
         - name: POSTGRES_USER
-          value: "kubedevnews"
+          value: "fulldevnews"
         - name: POSTGRES_PASSWORD
           value: "Pg#123"
 ---
@@ -40,23 +40,23 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: kube-news-app
+  name: full-news-app
 spec:
   replicas: 4
   selector:
     matchLabels:
-      app: kube-news-app
+      app: full-news-app
   template:
     metadata:
       labels:
-        app: kube-news-app
+        app: full-news-app
       annotations:
         prometheus.io/scrape: "true"
         prometheus.io/port: "8080"
     spec:
       containers:
-      - name: kube-news-app
-        image: oagara/kube-news-maratona:latest
+      - name: full-news-app
+        image: oagara/full-news-maratona:latest
         ports:
         - containerPort: 8080
         env:
@@ -67,9 +67,9 @@ spec:
         - name: DB_PORT
           value: "5432"
         - name: DB_DATABASE
-          value: "kubedevnews"
+          value: "fulldevnews"
         - name: DB_USERNAME
-          value: "kubedevnews"
+          value: "fulldevnews"
         - name: DB_PASSWORD
           value: "Pg#123"
         - name: DB_SSL_REQUIRE
@@ -78,11 +78,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: kube-news-service
+  name: full-news-service
 spec:
   type: LoadBalancer
   ports:
   - port: 80
     targetPort: 8080
   selector:
-    app: kube-news-app 
+    app: full-news-app

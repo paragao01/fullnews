@@ -162,7 +162,7 @@ A aplicação é configurada através de variáveis de ambiente. O `compose.yaml
 | Variável | Descrição | Valor Padrão |
 |----------|-----------|--------------|
 | `DB_DATABASE` | Nome do banco de dados | `kubedevnews` |
-| `DB_USERNAME` | Usuário do banco de dados | `kubedevnews` |
+| `DB_USERNAME` | Usuário do banco de dados | `fulldevnews` |
 | `DB_PASSWORD` | Senha do usuário | `Pg#123` |
 | `DB_HOST` | Endereço do banco de dados | `localhost` |
 | `DB_PORT` | Porta do banco de dados | `5432` |

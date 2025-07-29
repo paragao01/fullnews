@@ -15,7 +15,7 @@ Siga estes passos para provisionar seu cluster:
 1. **Navegue até o diretório do projeto:**
    Abra seu terminal e mude para o diretório onde o arquivo `main.tf` foi criado.
    ```bash
-   cd /home/paragao/devops/kubenews
+   cd /home/paragao/devops/fullnews
    ```
 
 2. **Crie um arquivo de variáveis:**
