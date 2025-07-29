@@ -9,7 +9,7 @@
 - **Orquestração:** Kubernetes
 - **Monitoramento:** Prometheus
 - **CI/CD:** GitHub Actions
-[![Docker Pulls](https://img.shields.io/docker/pulls/USUARIO/kubenews.svg)](https://hub.docker.com/r/USUARIO/kubenews)
+[![Docker Pulls](https://img.shields.io/docker/pulls/USUARIO/fullnews.svg)](https://hub.docker.com/r/USUARIO/fullnews)
 [![Licença](https://img.shields.io/badge/licença-MIT-blue.svg)](/LICENSE)
 
 Uma aplicação de notícias completa, desenvolvida em Node.js, para demonstrar um fluxo de trabalho de DevOps, desde o provisionamento da infraestrutura com Terraform até o deploy contínuo em um cluster Kubernetes.
@@ -161,7 +161,7 @@ A aplicação é configurada através de variáveis de ambiente. O `compose.yaml
 
 | Variável | Descrição | Valor Padrão |
 |----------|-----------|--------------|
-| `DB_DATABASE` | Nome do banco de dados | `kubedevnews` |
+| `DB_DATABASE` | Nome do banco de dados | `fulldevnews` |
 | `DB_USERNAME` | Usuário do banco de dados | `fulldevnews` |
 | `DB_PASSWORD` | Senha do usuário | `Pg#123` |
 | `DB_HOST` | Endereço do banco de dados | `localhost` |
